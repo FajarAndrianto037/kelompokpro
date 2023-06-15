@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -7,7 +6,6 @@ from numpy import array
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn import svm
 from sklearn.tree import DecisionTreeRegressor
-
 from sklearn.metrics import mean_absolute_percentage_error
 import altair as alt
 import pickle
@@ -17,19 +15,19 @@ Data,Preproses,Modelling,Implementasi = st.tabs(['Data','Preprosessing Data','Mo
 
 with Data:
    st.title("""
-   Peramalan Data Time Series Pada Saham PLN.
+   Peramalan Data Time Series Pada Saham PT. Adaro Energy Tbk.
    """)
    st.write('Proyek Sain Data')
    st.text("""
             1. Fajar Andrianto 200411100037 
-            2. Rania Nuraini 200411100168   
+            2. Rania Nuraini 2004111000168   
             """)
    st.subheader('Tentang Dataset')
    st.write ("""
-   Dataset yang digunakan adalah data time series pada Saham PLN, datanya di dapatkan dari website pada link berikut ini.
+   Dataset yang digunakan adalah data time series pada Saham PT. Adaro Energy Tbk, datanya di dapatkan dari website pada link berikut ini.
    """)
    st.write ("""
-    Dataset yang digunakan berjumlah 262 data dan terdapat 7 atribut : 
+    Dataset yang digunakan berjumlah 248 data dan terdapat 7 atribut : 
     """)
    st.write('1. Date : berisi tanggal jalannya perdagangan mulai dari tanggal 15 juni 2022- 15 juni 2023')
    st.write('2. Open : berisi Harga pembukaan pada hari tersebut')
@@ -39,171 +37,173 @@ with Data:
    st.write('6. Adj. Close : berisi Harga penutupan yang disesuaikan dengan aksi korporasi seperti right issue, stock split atau stock reverset')
    st.write('7. Volume : berisi Volume perdagangan (dalam satuan lembar)')
    st.subheader('Dataset')
-   df_data = pd.read_csv('https://raw.githubusercontent.com/FajarAndrianto037/kelompokpro/main/PLN%3DX.csv')
-   df_data
-   df_close= df_data['Close']
+   df = pd.read_csv('https://raw.githubusercontent.com/FajarAndrianto037/kelompokpro/main/PLN%3DX.csv')
+   df
    st.write('Dilakukan Pengecekan data kosong (Missing Value)')
-   st.write(df_data.isnull().sum())
+   st.write(df.isnull().sum())
    st.write('Masih Terdapat data kosong maka dilakukan penanganan dengan mengisinya dengan nilai median')
-   df_data['Open'] = df_data['Open'].fillna(value=df_data['Open'].median())
-   df_data['High'] = df_data['High'].fillna(value=df_data['High'].median())
-   df_data['Low'] = df_data['Low'].fillna(value=df_data['Low'].median())
-   df_data['Close'] = df_data['Close'].fillna(value=df_data['Close'].median())
-   df_data['Adj Close'] = df_data['Adj Close'].fillna(value=df_data['Adj Close'].median())
-   df_data['Volume'] = df_data['Volume'].fillna(value=df_data['Volume'].median())
+   df['Open'] = df['Open'].fillna(value=df['Open'].median())
+   df['High'] = df['High'].fillna(value=df['High'].median())
+   df['Low'] = df['Low'].fillna(value=df['Low'].median())
+   df['Close'] = df['Close'].fillna(value=df['Close'].median())
+   df['Adj Close'] = df['Adj Close'].fillna(value=df['Adj Close'].median())
+   df['Volume'] = df['Volume'].fillna(value=df['Volume'].median())
    st.write('Setelah dilakukan penanganan')
-   st.write(df_data.isnull().sum())
-   st.write('Data yang akan di gunakan adalah data Close')
+   st.write(df.isnull().sum())
+   st.write('Data yang akan di gunakan adalah data Open')
 
 
 with Preproses:
-   # transform univariate time series to supervised learning problem
-   from numpy import array
-    # split a univariate sequence into samples
-   def split_sequence(sequence, n_steps):
-      X, y = list(), list()
-      for i in range(len(sequence)):
-      # find the end of this pattern
-         end_ix = i + n_steps
-      # check if we are beyond the sequence
-         if end_ix > len(sequence)-1:
-               break
-      # gather input and output parts of the pattern
-         # print(i, end_ix)
-         seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
-         X.append(seq_x)
-         y.append(seq_y)
-      return array(X), array(y)
-   #tuning data
-   n_steps = 5
-   X, y = split_sequence(df_close, n_steps)
-   n_steps = 5
-   X, y = split_sequence(df_close, n_steps)  # column names to X and y data frames
-   df_X = pd.DataFrame(X, columns=['t-' + str(i) for i in range(n_steps-1, -1, -1)])
-   df_y = pd.DataFrame(y, columns=['t+1 (prediction)'])
-
-    # concat df_X and df_y
-   df = pd.concat([df_X, df_y], axis=1)
-   
    # untuk mengambil data yang akan diproses
-   df_close= df_data['Close']
+   data = df['Open']
    # menghitung jumlah data
-   n = len(df_data)
-   
-   # Mengaplikasikan MinMaxScaler pada data pengujian
-   from sklearn.preprocessing import MinMaxScaler
-   scaler= MinMaxScaler()
-# y_norm= scaler.fit_transform(df_y)
-   X_norm= scaler.fit_transform(df_X)
-   # reshaped_data = data.reshape(-1, 1)
-   X_norm= scaler.fit_transform(df_X)
-   st.write("Data Training MinMax Scaler")
-   #train
-   st.write("Data Test MinMax Scaler")
-   #train
-   
+   n = len(data)
    # membagi data menjadi 80% untuk data training dan 20% data testing
-   from sklearn.model_selection import train_test_split
-   X_train, X_test, y_train, y_test = train_test_split(X_norm, y, test_size=0.2, random_state=0)
+   sizeTrain = (round(n*0.8))
+   data_train = pd.DataFrame(data[:sizeTrain])
+   data_test = pd.DataFrame(data[sizeTrain:])
    st.write("""Dilakukan split data menjadi 80% data training dan 20% data testing""")
    st.write("""Dilakukan Normalisasi Menggunakan MinMax Scaler""")
    min_ = st.checkbox('MinMax Scaler')
    mod = st.button("Cek")
+   # melakukan normalisasi menggunakan minMaxScaler
+   scaler = MinMaxScaler()
+   train_scaled = scaler.fit_transform(data_train)
+   # Mengaplikasikan MinMaxScaler pada data pengujian
+   test_scaled = scaler.transform(data_test)
+   # reshaped_data = data.reshape(-1, 1)
+   train = pd.DataFrame(train_scaled, columns = ['data'])
+   train = train['data']
+   test = pd.DataFrame(test_scaled, columns = ['data'])
+   test = test['data']
+   if min_:
+      if mod:
+         st.write("Data Training MinMax Scaler")
+         train
+         st.write("Data Test MinMax Scaler")
+         train
 
-
-   # transform univariate time series to supervised learning problem
-   from numpy import array
-    # split a univariate sequence into samples
    def split_sequence(sequence, n_steps):
       X, y = list(), list()
       for i in range(len(sequence)):
-      # find the end of this pattern
+         # find the end of this pattern
          end_ix = i + n_steps
-      # check if we are beyond the sequence
+         # check if we are beyond the sequence
          if end_ix > len(sequence)-1:
-               break
-      # gather input and output parts of the pattern
-         # print(i, end_ix)
+            break
+         # gather input and output parts of the pattern
          seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
          X.append(seq_x)
          y.append(seq_y)
       return array(X), array(y)
+   #memanggil fungsi untuk data training
+   df_X, df_Y = split_sequence(train, 4)
+   x = pd.DataFrame(df_X, columns = ['xt-4','xt-3','xt-2','xt-1'])
+   y = pd.DataFrame(df_Y, columns = ['xt'])
+   dataset_train = pd.concat([x, y], axis=1)
+   dataset_train.to_csv('data-train.csv', index=False)
+   X_train = dataset_train.iloc[:, :4].values
+   Y_train = dataset_train.iloc[:, -1].values
+   #memanggil fungsi untuk data testing
+   test_x, test_y = split_sequence(test, 4)
+   x = pd.DataFrame(test_x, columns = ['xt-4','xt-3','xt-2','xt-1'])
+   y = pd.DataFrame(test_y, columns = ['xt'])
+   dataset_test = pd.concat([x, y], axis=1)
+   dataset_test.to_csv('data-test.csv', index=False)
+   X_test = dataset_test.iloc[:, :4].values
+   Y_test = dataset_test.iloc[:, -1].values
 with Modelling:
 
+   def tuning(X_train,Y_train,X_test,Y_test,iterasi):
+    hasil = 1
+    iter = 0
+    for i in range(1,iterasi):
+        neigh = KNeighborsRegressor(n_neighbors=i)
+        neigh = neigh.fit(X_train,Y_train)
+        y_pred=neigh.predict(X_test)
+        reshaped_data = y_pred.reshape(-1, 1)
+        original_data = scaler.inverse_transform(reshaped_data)
+        reshaped_datates = Y_test.reshape(-1, 1)
+        actual_test = scaler.inverse_transform(reshaped_datates)
+        akhir1 = pd.DataFrame(original_data)
+        akhir = pd.DataFrame(actual_test)
+        mape = mean_absolute_percentage_error(original_data, actual_test)
+        if mape < hasil:
+            hasil = mape
+            iter = i
+    return hasil, iter
+   akr,iter = tuning(X_train,Y_train,X_test,Y_test,30)
    # Model knn
-   # import knn
-   from sklearn.neighbors import KNeighborsRegressor
-   model_knn = KNeighborsRegressor(n_neighbors=7)
-   model_knn.fit(X_train, y_train)
-   y_pred=model_knn.predict(X_test)
-   from sklearn.metrics import mean_squared_error
-   mean_squared_error(y_test, y_pred)
+   neigh = KNeighborsRegressor(n_neighbors=2)
+   neigh.fit(X_train,Y_train)
+   y_pred=neigh.predict(X_test)
+   reshaped_data = y_pred.reshape(-1, 1)
+   original_data = scaler.inverse_transform(reshaped_data)
+   reshaped_datates = Y_test.reshape(-1, 1)
+   actual_test = scaler.inverse_transform(reshaped_datates)
+   akhir1 = pd.DataFrame(original_data)
+   akhir1.to_csv('prediksi.csv', index=False)
+   akhir = pd.DataFrame(actual_test)
+   akhir.to_csv('aktual.csv', index=False)
+   mape_knn = mean_absolute_percentage_error(original_data, actual_test)
 
-   from sklearn.metrics import mean_absolute_percentage_error
-   mean_absolute_percentage_error(y_test, y_pred)
-   from sklearn.metrics import mean_absolute_error
-   mean_absolute_error(y_test, y_pred)
+   # Model svm
+   clf_svm = svm.SVR(kernel='rbf')
+   clf_svm.fit(X_train,Y_train)
+   y_pred_SVM=clf_svm.predict(X_test)
+   reshaped_data_SVM = y_pred_SVM.reshape(-1, 1)
+   original_data_ = scaler.inverse_transform(reshaped_data_SVM)
+   reshaped_datates_ = Y_test.reshape(-1, 1)
+   actual_test_ = scaler.inverse_transform(reshaped_datates_)
+   mape_svm = mean_absolute_percentage_error(original_data_, actual_test_)
 
-   # Model naive bayes
-   from sklearn.model_selection import train_test_split
-   from sklearn.naive_bayes import GaussianNB
-   from sklearn.metrics import mean_squared_error, mean_absolute_percentage_error
+   # Model dtr
+   regressor = DecisionTreeRegressor()
+   regressor.fit(X_train, Y_train)
+   y_pred_dtr=regressor.predict(X_test)
+   reshaped_data = y_pred_dtr.reshape(-1, 1)
+   _original_data = scaler.inverse_transform(reshaped_data)
+   reshaped_datates = Y_test.reshape(-1, 1)
+   _actual_test = scaler.inverse_transform(reshaped_datates)
+   mape_dtr = mean_absolute_percentage_error(_original_data, _actual_test)
 
-    # Create a Naive Bayes
-   naive_bayes = GaussianNB()
+   st.subheader("Ada beberapa pilihan model dibawah ini!")
+   st.write("Pilih Model yang Anda inginkan untuk Cek Mape")
+   kn = st.checkbox('K-Nearest Neighbor')
+   svm_ = st.checkbox('Supper Vector Machine')
+   des = st.checkbox('Decision Tree')
+   mod = st.button("Modeling")
 
-   import numpy as np
-    # Define the bin edges or thresholds
-   bin_edges = [4.0, 4.5, 5.0]  # Adjust the values based on your requirements
 
-    # Perform binning on the labels
-   y_train_categorical = np.digitize(y_train, bin_edges)
-
-    # Create a Naive Bayes classifier
-   naive_bayes = GaussianNB()
-
-    # Training the model
-   naive_bayes.fit(X_train, y_train_categorical)
-
-    # Making predictions on the test set
-   y_pred = naive_bayes.predict(X_test)
-
-    # Calculating MSE
-   mse = mean_squared_error(y_test, y_pred)
-   print("Mean Squared Error (MSE):", mse)
-
-    # Calculating MAPE
-   mape = mean_absolute_percentage_error(y_test, y_pred)
-   print("Mean Absolute Percentage Error (MAPE):", mape)
-
-   # Model Random Forest
-   from sklearn.ensemble import RandomForestRegressor
-   from sklearn.model_selection import train_test_split
-   from sklearn.metrics import mean_squared_error, mean_absolute_percentage_error
-
-# Create a Random Forest Regressor
-   random_forest = RandomForestRegressor()
-
-# Train the model
-   random_forest.fit(X_train, y_train)
-
-# Make predictions
-   predictions = random_forest.predict(X_test)
-
-# Calculate evaluation metrics
-   mse = mean_squared_error(y_test, predictions)
-
-   print("Mean Squared Error (MSE):", mse)
-
-   mape = mean_absolute_percentage_error(y_test, predictions)
-   print("Mean Absolute Percentage Error (MAPE):", mape)
+   if kn :
+      if mod:
+         st.write('Model KNN Menghasilkan Mape: {}'. format(mape_knn))
+   if svm_ :
+      if mod:
+         st.write("Model SVM Menghasilkan Mape : {}" . format(mape_svm))
+   if des :
+      if mod:
+         st.write("Model Decision Tree Menghasilkan Mape : {}" . format(mape_dtr))
+   
+   eval = st.button("Evaluasi semua model")
+   if eval :
+      # st.snow()
+      source = pd.DataFrame({
+            'Nilai Mape' : [mape_knn,mape_svm,mape_dtr],
+            'Nama Model' : ['KNN','SVM','Decision Tree']
+      })
+      bar_chart = alt.Chart(source).mark_bar().encode(
+            y = 'Nilai Mape',
+            x = 'Nama Model'
+      )
+      st.altair_chart(bar_chart,use_container_width=True)
 
 
 
 with Implementasi:
    #menyimpan model
    with open('knn','wb') as r:
-      pickle.dump(model_knn,r)
+      pickle.dump(neigh,r)
    with open('minmax','wb') as r:
       pickle.dump(scaler,r)
    
@@ -227,7 +227,7 @@ with Implementasi:
       X_pred = model.predict([[(data1[0][0]),(data2[0][0]),(data3[0][0]),(data4[0][0])]])
       t_data1= X_pred.reshape(-1, 1)
       original = minmax.inverse_transform(t_data1)
-      hasil =f"Prediksi Hasil Peramalan Pada Harga Penutupan Saham PLN adalah  : {original[0][0]}"
+      hasil =f"Prediksi Hasil Peramalan Pada Harga Pembukaan Saham PT. Adaro Energy Tbk. adalah  : {original[0][0]}"
       st.success(hasil)
 
    all = st.button("Submit")
