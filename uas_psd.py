@@ -97,8 +97,6 @@ with Preproses:
    X_norm= scaler.fit_transform(df_X)
    # reshaped_data = data.reshape(-1, 1)
    X_norm= scaler.fit_transform(df_X)
-   if min_:
-      if mod:
          st.write("Data Training MinMax Scaler")
          train
          st.write("Data Test MinMax Scaler")
