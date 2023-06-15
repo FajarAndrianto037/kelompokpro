@@ -60,6 +60,18 @@ with Preproses:
    df_close= df_data['Close']
    # menghitung jumlah data
    n = len(df_data)
+   
+   # Mengaplikasikan MinMaxScaler pada data pengujian
+   X_norm= scaler.fit_transform(df_X)
+   # reshaped_data = data.reshape(-1, 1)
+   X_norm= scaler.fit_transform(df_X)
+   if min_:
+      if mod:
+         st.write("Data Training MinMax Scaler")
+         train
+         st.write("Data Test MinMax Scaler")
+         train
+   
    # membagi data menjadi 80% untuk data training dan 20% data testing
    from sklearn.model_selection import train_test_split
    X_train, X_test, y_train, y_test = train_test_split(X_norm, y, test_size=0.2, random_state=0)
@@ -72,16 +84,7 @@ with Preproses:
    scaler= MinMaxScaler()
 
 # y_norm= scaler.fit_transform(df_y)
-   # Mengaplikasikan MinMaxScaler pada data pengujian
-   X_norm= scaler.fit_transform(df_X)
-   # reshaped_data = data.reshape(-1, 1)
-   X_norm= scaler.fit_transform(df_X)
-   if min_:
-      if mod:
-         st.write("Data Training MinMax Scaler")
-         train
-         st.write("Data Test MinMax Scaler")
-         train
+
 
    # transform univariate time series to supervised learning problem
    from numpy import array
