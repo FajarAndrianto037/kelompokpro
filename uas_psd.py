@@ -56,6 +56,17 @@ with Data:
 
 
 with Preproses:
+   #tuning data
+   n_steps = 5
+   X, y = split_sequence(df_close, n_steps)
+   n_steps = 5
+   X, y = split_sequence(df_close, n_steps)  # column names to X and y data frames
+   df_X = pd.DataFrame(X, columns=['t-' + str(i) for i in range(n_steps-1, -1, -1)])
+   df_y = pd.DataFrame(y, columns=['t+1 (prediction)'])
+
+    # concat df_X and df_y
+   df = pd.concat([df_X, df_y], axis=1)
+   
    # untuk mengambil data yang akan diproses
    df_close= df_data['Close']
    # menghitung jumlah data
@@ -120,17 +131,6 @@ with Preproses:
    X_test = dataset_test.iloc[:, :4].values
    Y_test = dataset_test.iloc[:, -1].values
 with Modelling:
-
-   #tuning data
-   n_steps = 5
-   X, y = split_sequence(df_close, n_steps)
-   n_steps = 5
-   X, y = split_sequence(df_close, n_steps)  # column names to X and y data frames
-   df_X = pd.DataFrame(X, columns=['t-' + str(i) for i in range(n_steps-1, -1, -1)])
-   df_y = pd.DataFrame(y, columns=['t+1 (prediction)'])
-
-    # concat df_X and df_y
-   df = pd.concat([df_X, df_y], axis=1)
 
    # Model knn
    # import knn
