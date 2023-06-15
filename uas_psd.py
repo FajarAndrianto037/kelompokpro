@@ -15,7 +15,7 @@ Data,Preproses,Modelling,Implementasi = st.tabs(['Data','Preprosessing Data','Mo
 
 with Data:
    st.title("""
-   Peramalan Data Time Series Pada Saham PT. Adaro Energy Tbk.
+   Peramalan Data Time Series Pada Saham Perusahaan Listrik Negara (PLN) 
    """)
    st.write('Proyek Sain Data')
    st.text("""
@@ -24,7 +24,7 @@ with Data:
             """)
    st.subheader('Tentang Dataset')
    st.write ("""
-   Dataset yang digunakan adalah data time series pada Saham PLN, datanya di dapatkan dari website pada link berikut ini.
+   Dataset yang digunakan adalah data time series pada Saham Perusahaan Listrik Negara (PLN) , datanya di dapatkan dari website pada link berikut ini.
    """)
    st.write ("""
     Dataset yang digunakan berjumlah 261 data dan terdapat 7 atribut : 
@@ -227,7 +227,7 @@ with Implementasi:
       X_pred = model.predict([[(data1[0][0]),(data2[0][0]),(data3[0][0]),(data4[0][0])]])
       t_data1= X_pred.reshape(-1, 1)
       original = minmax.inverse_transform(t_data1)
-      hasil =f"Prediksi Hasil Peramalan Pada Harga Pembukaan PLN adalah  : {original[0][0]}"
+      hasil =f"Prediksi Hasil Peramalan Pada Harga Pembukaan Perusahaan Listrik Negara (PLN)  adalah  : {original[0][0]}"
       st.success(hasil)
 
    all = st.button("Submit")
