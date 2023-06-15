@@ -111,9 +111,6 @@ with Preproses:
    mod = st.button("Cek")
 
 
-# y_norm= scaler.fit_transform(df_y)
-
-
    # transform univariate time series to supervised learning problem
    from numpy import array
     # split a univariate sequence into samples
@@ -131,22 +128,6 @@ with Preproses:
          X.append(seq_x)
          y.append(seq_y)
       return array(X), array(y)
-   #memanggil fungsi untuk data training
-   df_X, df_Y = split_sequence(train, 4)
-   x = pd.DataFrame(df_X, columns = ['xt-4','xt-3','xt-2','xt-1'])
-   y = pd.DataFrame(df_Y, columns = ['xt'])
-   dataset_train = pd.concat([x, y], axis=1)
-   dataset_train.to_csv('data-train.csv', index=False)
-   X_train = dataset_train.iloc[:, :4].values
-   Y_train = dataset_train.iloc[:, -1].values
-   #memanggil fungsi untuk data testing
-   test_x, test_y = split_sequence(test, 4)
-   x = pd.DataFrame(test_x, columns = ['xt-4','xt-3','xt-2','xt-1'])
-   y = pd.DataFrame(test_y, columns = ['xt'])
-   dataset_test = pd.concat([x, y], axis=1)
-   dataset_test.to_csv('data-test.csv', index=False)
-   X_test = dataset_test.iloc[:, :4].values
-   Y_test = dataset_test.iloc[:, -1].values
 with Modelling:
 
    # Model knn
