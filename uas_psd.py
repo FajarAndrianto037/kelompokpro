@@ -51,7 +51,7 @@ with Data:
    df_data['Adj Close'] = df_data['Adj Close'].fillna(value=df_data['Adj Close'].median())
    df_data['Volume'] = df_data['Volume'].fillna(value=df_data['Volume'].median())
    st.write('Setelah dilakukan penanganan')
-   st.write(df.isnull().sum())
+   st.write(dfdf_data.isnull().sum())
    st.write('Data yang akan di gunakan adalah data Close')
 
 
