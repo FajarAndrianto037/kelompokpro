@@ -68,7 +68,7 @@ with Preproses:
    mod = st.button("Cek")
    # melakukan normalisasi menggunakan minMaxScaler
    from sklearn.preprocessing import MinMaxScaler
-    scaler= MinMaxScaler()
+   scaler= MinMaxScaler()
 
 # y_norm= scaler.fit_transform(df_y)
    # Mengaplikasikan MinMaxScaler pada data pengujian
