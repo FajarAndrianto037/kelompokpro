@@ -202,10 +202,10 @@ with Modelling:
 
 with Implementasi:
    #menyimpan model
-   with open('knn','wb') as r:
-      pickle.dump(knn_model,r)
-   with open('minmax','wb') as r:
-      pickle.dump(scaler,r)
+   #with open('knn','wb') as r:
+      #pickle.dump(knn_model,r)
+   #with open('minmax','wb') as r:
+      #pickle.dump(scaler,r)
    
    st.title("""Implementasi Data""")
    input_1 = st.number_input('Masukkan Data 1')
