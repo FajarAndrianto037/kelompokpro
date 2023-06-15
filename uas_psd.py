@@ -41,6 +41,7 @@ with Data:
    st.subheader('Dataset')
    df_data = pd.read_csv('https://raw.githubusercontent.com/FajarAndrianto037/kelompokpro/main/PLN%3DX.csv')
    df_data
+   df_close= df_data['Close']
    st.write('Dilakukan Pengecekan data kosong (Missing Value)')
    st.write(df_data.isnull().sum())
    st.write('Masih Terdapat data kosong maka dilakukan penanganan dengan mengisinya dengan nilai median')
