@@ -91,6 +91,9 @@ with Preproses:
    n = len(df_data)
    
    # Mengaplikasikan MinMaxScaler pada data pengujian
+   from sklearn.preprocessing import MinMaxScaler
+   scaler= MinMaxScaler()
+# y_norm= scaler.fit_transform(df_y)
    X_norm= scaler.fit_transform(df_X)
    # reshaped_data = data.reshape(-1, 1)
    X_norm= scaler.fit_transform(df_X)
@@ -108,9 +111,7 @@ with Preproses:
    st.write("""Dilakukan Normalisasi Menggunakan MinMax Scaler""")
    min_ = st.checkbox('MinMax Scaler')
    mod = st.button("Cek")
-   # melakukan normalisasi menggunakan minMaxScaler
-   from sklearn.preprocessing import MinMaxScaler
-   scaler= MinMaxScaler()
+
 
 # y_norm= scaler.fit_transform(df_y)
 
