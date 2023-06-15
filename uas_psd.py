@@ -119,46 +119,46 @@ with Modelling:
 
    #tuning data
    n_steps = 5
-    X, y = split_sequence(df_close, n_steps)
-    n_steps = 5
-    X, y = split_sequence(df_close, n_steps)  # column names to X and y data frames
-    df_X = pd.DataFrame(X, columns=['t-' + str(i) for i in range(n_steps-1, -1, -1)])
-    df_y = pd.DataFrame(y, columns=['t+1 (prediction)'])
+   X, y = split_sequence(df_close, n_steps)
+   n_steps = 5
+   X, y = split_sequence(df_close, n_steps)  # column names to X and y data frames
+   df_X = pd.DataFrame(X, columns=['t-' + str(i) for i in range(n_steps-1, -1, -1)])
+   df_y = pd.DataFrame(y, columns=['t+1 (prediction)'])
 
     # concat df_X and df_y
-    df = pd.concat([df_X, df_y], axis=1)
+   df = pd.concat([df_X, df_y], axis=1)
 
    # Model knn
    # import knn
-    from sklearn.neighbors import KNeighborsRegressor
-    model_knn = KNeighborsRegressor(n_neighbors=7)
-    model_knn.fit(X_train, y_train)
-    y_pred=model_knn.predict(X_test)
-    from sklearn.metrics import mean_squared_error
-    mean_squared_error(y_test, y_pred)
+   from sklearn.neighbors import KNeighborsRegressor
+   model_knn = KNeighborsRegressor(n_neighbors=7)
+   model_knn.fit(X_train, y_train)
+   y_pred=model_knn.predict(X_test)
+   from sklearn.metrics import mean_squared_error
+   mean_squared_error(y_test, y_pred)
 
-    from sklearn.metrics import mean_absolute_percentage_error
-    mean_absolute_percentage_error(y_test, y_pred)
-    from sklearn.metrics import mean_absolute_error
-    mean_absolute_error(y_test, y_pred)
+   from sklearn.metrics import mean_absolute_percentage_error
+   mean_absolute_percentage_error(y_test, y_pred)
+   from sklearn.metrics import mean_absolute_error
+   mean_absolute_error(y_test, y_pred)
 
    # Model naive bayes
    from sklearn.model_selection import train_test_split
-    from sklearn.naive_bayes import GaussianNB
-    from sklearn.metrics import mean_squared_error, mean_absolute_percentage_error
+   from sklearn.naive_bayes import GaussianNB
+   from sklearn.metrics import mean_squared_error, mean_absolute_percentage_error
 
     # Create a Naive Bayes
-    naive_bayes = GaussianNB()
+   naive_bayes = GaussianNB()
 
-    import numpy as np
+   import numpy as np
     # Define the bin edges or thresholds
-    bin_edges = [4.0, 4.5, 5.0]  # Adjust the values based on your requirements
+   bin_edges = [4.0, 4.5, 5.0]  # Adjust the values based on your requirements
 
     # Perform binning on the labels
-    y_train_categorical = np.digitize(y_train, bin_edges)
+   y_train_categorical = np.digitize(y_train, bin_edges)
 
     # Create a Naive Bayes classifier
-    naive_bayes = GaussianNB()
+   naive_bayes = GaussianNB()
 
     # Training the model
     naive_bayes.fit(X_train, y_train_categorical)
@@ -176,25 +176,25 @@ with Modelling:
 
    # Model Random Forest
    from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, mean_absolute_percentage_error
+   from sklearn.model_selection import train_test_split
+   from sklearn.metrics import mean_squared_error, mean_absolute_percentage_error
 
 # Create a Random Forest Regressor
-random_forest = RandomForestRegressor()
+   random_forest = RandomForestRegressor()
 
 # Train the model
-random_forest.fit(X_train, y_train)
+   random_forest.fit(X_train, y_train)
 
 # Make predictions
-predictions = random_forest.predict(X_test)
+   predictions = random_forest.predict(X_test)
 
 # Calculate evaluation metrics
-mse = mean_squared_error(y_test, predictions)
+   mse = mean_squared_error(y_test, predictions)
 
-print("Mean Squared Error (MSE):", mse)
+   print("Mean Squared Error (MSE):", mse)
 
-mape = mean_absolute_percentage_error(y_test, predictions)
-print("Mean Absolute Percentage Error (MAPE):", mape)
+   mape = mean_absolute_percentage_error(y_test, predictions)
+   print("Mean Absolute Percentage Error (MAPE):", mape)
 
 
 
