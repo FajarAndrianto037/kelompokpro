@@ -7,6 +7,7 @@ from numpy import array
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn import svm
 from sklearn.tree import DecisionTreeRegressor
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_percentage_error
 import altair as alt
 import pickle
@@ -60,8 +61,7 @@ with Preproses:
    # menghitung jumlah data
    n = len(data)
    # membagi data menjadi 80% untuk data training dan 20% data testing
-    from sklearn.model_selection import train_test_split
-    X_train, X_test, y_train, y_test = train_test_split(X_norm, y, test_size=0.2, random_state=0)
+   X_train, X_test, y_train, y_test = train_test_split(X_norm, y, test_size=0.2, random_state=0)
    st.write("""Dilakukan split data menjadi 80% data training dan 20% data testing""")
    st.write("""Dilakukan Normalisasi Menggunakan MinMax Scaler""")
    min_ = st.checkbox('MinMax Scaler')
