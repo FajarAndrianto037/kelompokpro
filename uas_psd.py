@@ -161,18 +161,18 @@ with Modelling:
    naive_bayes = GaussianNB()
 
     # Training the model
-    naive_bayes.fit(X_train, y_train_categorical)
+   naive_bayes.fit(X_train, y_train_categorical)
 
     # Making predictions on the test set
-    y_pred = naive_bayes.predict(X_test)
+   y_pred = naive_bayes.predict(X_test)
 
     # Calculating MSE
-    mse = mean_squared_error(y_test, y_pred)
-    print("Mean Squared Error (MSE):", mse)
+   mse = mean_squared_error(y_test, y_pred)
+   print("Mean Squared Error (MSE):", mse)
 
     # Calculating MAPE
-    mape = mean_absolute_percentage_error(y_test, y_pred)
-    print("Mean Absolute Percentage Error (MAPE):", mape)
+   mape = mean_absolute_percentage_error(y_test, y_pred)
+   print("Mean Absolute Percentage Error (MAPE):", mape)
 
    # Model Random Forest
    from sklearn.ensemble import RandomForestRegressor
