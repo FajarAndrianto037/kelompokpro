@@ -203,7 +203,7 @@ with Modelling:
 with Implementasi:
    #menyimpan model
    with open('knn','wb') as r:
-      pickle.dump(knn,r)
+      pickle.dump(model_knn,r)
    with open('minmax','wb') as r:
       pickle.dump(scaler,r)
    
