@@ -98,9 +98,9 @@ with Preproses:
    # reshaped_data = data.reshape(-1, 1)
    X_norm= scaler.fit_transform(df_X)
    st.write("Data Training MinMax Scaler")
-   train
+   #train
    st.write("Data Test MinMax Scaler")
-   train
+   #train
    
    # membagi data menjadi 80% untuk data training dan 20% data testing
    from sklearn.model_selection import train_test_split
