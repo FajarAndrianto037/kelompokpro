@@ -59,7 +59,7 @@ with Preproses:
    # untuk mengambil data yang akan diproses
    df_close= df_data['Close']
    # menghitung jumlah data
-   n = len(data)
+   n = len(df_data)
    # membagi data menjadi 80% untuk data training dan 20% data testing
    X_train, X_test, y_train, y_test = train_test_split(X_norm, y, test_size=0.2, random_state=0)
    st.write("""Dilakukan split data menjadi 80% data training dan 20% data testing""")
