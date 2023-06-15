@@ -201,7 +201,7 @@ with Modelling:
 
 
 with Implementasi:
-   menyimpan model
+   #menyimpan model
    with open('knn','wb') as r:
       pickle.dump(knn_model,r)
    with open('minmax','wb') as r:
