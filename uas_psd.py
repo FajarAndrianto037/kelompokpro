@@ -98,7 +98,7 @@ with Preproses:
          seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
          X.append(seq_x)
          y.append(seq_y)
-            return array(X), array(y)
+      return array(X), array(y)
    #memanggil fungsi untuk data training
    df_X, df_Y = split_sequence(train, 4)
    x = pd.DataFrame(df_X, columns = ['xt-4','xt-3','xt-2','xt-1'])
